@@ -152,11 +152,17 @@ kbd {
   padding: 26px 0 0;
   font: 400 15px/1 var(--sans);
 }
-.logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
-.logo .logomark { width: auto; height: 28px; color: var(--copper); }
-.logo .wordmark { font: 400 22px/1 var(--serif); letter-spacing: -.012em; color: var(--text); }
-.top a.quiet { color: var(--muted-aa); text-decoration: none; padding: 8px 0; }
+.logo { display: inline-flex; align-items: center; text-decoration: none; }
+.logo .logo-img { display: block; height: 28px; width: auto; }
+.nav-actions { display: inline-flex; align-items: center; gap: 18px; }
+.top a.quiet {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: var(--muted-aa); text-decoration: none; padding: 8px 0;
+}
 .top a.quiet:hover { color: var(--text); }
+.top a.quiet .ico { flex: none; opacity: .9; }
+.btn .ico { flex: none; }
+.btn { gap: 8px; align-items: center; }
 
 .hero { padding: clamp(56px, 10vw, 112px) 0 clamp(36px, 5vw, 56px); }
 .hero h1 {

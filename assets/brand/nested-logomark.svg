@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
- viewBox="-160.000 -440.000 1600.000 1600.000"
+<svg xmlns="http://www.w3.org/2000/svg" width="1408" height="1024"
+ viewBox="468.8000 228.8000 348.8000 253.6000"
  preserveAspectRatio="xMidYMid meet">
-  <g id="nest" fill="#A4886F" stroke="#A4886F" stroke-width="14"
+  <!-- Tight crop of nested-logomark.svg (no padding). Original left locked. -->
+<g id="nest" fill="#A4886F" stroke="#A4886F" stroke-width="14"
      stroke-linejoin="round" stroke-linecap="round"
      paint-order="stroke fill"
      transform="rotate(13 640.0 360.0)">
