@@ -9,7 +9,7 @@ The site for **Nested**, the Mac research reader built in `truefrontier/nested-r
 - `assets/icon/`, `assets/brand/`: the icon at web sizes and the logo SVGs. `assets/screenshots/`: real windows of the app at 2×.
 - `assets/og.png`: the link preview, rendered from `design/og.html` by `design/og.sh`.
 - `demo/`: the demo video and the scripts that make it (below).
-- `.github/workflows/pages.yml`: publishes the repo root to GitHub Pages on every push to `main`. `CNAME` pins `nestedreader.app`.
+- `design/publish.mjs`: publishes the page to its here.now site, which serves `nestedreader.app`.
 
 ## Update the version or the download
 
@@ -30,4 +30,11 @@ Needs `/Applications/Nested.app`, `ffmpeg`, `cliclick`, ImageMagick, Screen Reco
 
 ## Publish
 
-GitHub Pages on the free organisation plan needs the repository to be public. Once it is: Settings › Pages › Source: GitHub Actions, then push to `main`. Point the domain at Pages (A records for `nestedreader.app` to GitHub's four IPs, `www` as a CNAME to `truefrontier.github.io`) and turn on Enforce HTTPS after the certificate arrives.
+The site is hosted on [here.now](https://here.now) as `aware-tassel-9yy6.here.now`, with `nestedreader.app` pointed at it through Cloudflare. Publishing is one command:
+
+```bash
+node design/publish.mjs            # what the page references, plus robots.txt and sitemap.xml
+node design/publish.mjs --dry-run  # list the files and stop
+```
+
+It needs the here.now API key in `~/.herenow/credentials`. Each run stages a new version from the current live one and makes it live in one step; here.now keeps the earlier versions, so a bad publish can be restored from the dashboard.
