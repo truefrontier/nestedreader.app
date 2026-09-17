@@ -13,7 +13,14 @@ The site for **Nested**, the Mac research reader built in `truefrontier/nested-r
 
 ## Update the version or the download
 
-The download button points at `https://nested-feedback.fly.dev/updates/dmg`, which always redirects to the newest universal `.dmg`, so a release needs no change here. The version number is written once in `index.html`; search for it and bump it after `pnpm release` in the app repo.
+Neither needs a hand after a release. The download button points at `https://nested-feedback.fly.dev/updates/dmg`, which always redirects to the newest universal `.dmg`, so it never changes. The version in the footer keeps itself current: `.github/workflows/version.yml` asks the update relay for the newest release every six hours, writes it into the `<span data-version>` in `index.html`, commits that to `main`, and republishes the page. When the version has not moved it does nothing; when the relay has no version, or the page has no `<span data-version>`, it fails the run rather than publishing something wrong.
+
+The one thing it needs is the here.now key as a repository secret named `HERENOW_API_KEY`, the same key that sits in `~/.herenow/credentials`:
+
+```bash
+gh secret set HERENOW_API_KEY < ~/.herenow/credentials
+gh workflow run version   # run it now instead of waiting for the schedule
+```
 
 ## Remake the demo video
 
