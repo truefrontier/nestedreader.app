@@ -1,0 +1,12 @@
+ObjC.import('Cocoa');
+const [x, y, w, h, hex, secs] = [Number($.NSProcessInfo.processInfo.arguments.objectAtIndex(4).js), Number($.NSProcessInfo.processInfo.arguments.objectAtIndex(5).js), Number($.NSProcessInfo.processInfo.arguments.objectAtIndex(6).js), Number($.NSProcessInfo.processInfo.arguments.objectAtIndex(7).js), $.NSProcessInfo.processInfo.arguments.objectAtIndex(8).js, Number($.NSProcessInfo.processInfo.arguments.objectAtIndex(9).js)];
+const r = parseInt(hex.slice(1,3),16)/255, g = parseInt(hex.slice(3,5),16)/255, b = parseInt(hex.slice(5,7),16)/255;
+const app = $.NSApplication.sharedApplication;
+app.setActivationPolicy($.NSApplicationActivationPolicyAccessory);
+const screenH = $.NSScreen.mainScreen.frame.size.height;
+const win = $.NSWindow.alloc.initWithContentRectStyleMaskBackingDefer($.NSMakeRect(x, screenH - y - h, w, h), $.NSWindowStyleMaskBorderless, $.NSBackingStoreBuffered, false);
+win.backgroundColor = $.NSColor.colorWithSRGBRedGreenBlueAlpha(r, g, b, 1);
+win.level = $.NSNormalWindowLevel;
+win.hasShadow = false;
+win.orderFrontRegardless;
+$.NSRunLoop.currentRunLoop.runUntilDate($.NSDate.dateWithTimeIntervalSinceNow(secs));

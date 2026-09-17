@@ -2,6 +2,7 @@
 # Drives the real Nested.app on a Mac and records the demo that the site embeds.
 #
 #   demo/record.sh launch      # apply demo settings, open the sample folder in Nested, place the window
+#   THEME=dark demo/record.sh launch   # the same in the app's dark theme, on a dark backdrop
 #   demo/record.sh run         # the scripted demo: records demo/raw.mp4 and demo/marks.log
 #   demo/record.sh shot NAME   # still of the window into demo/stills/NAME.png
 #   demo/record.sh quit        # quit Nested and put the user's settings back
@@ -20,6 +21,11 @@ TAKE_DIR=$PWD/.run
 SUPPORT="$HOME/Library/Application Support/app.nestedreader.nested"
 BACKUP=${BACKUP:-$PWD/.backup}
 WIN_X=160 WIN_Y=100 WIN_W=1280 WIN_H=800
+THEME=${THEME:-light}
+# The page colour of each theme (the site's --bg). A borderless window in it sits behind Nested while
+# recording, so the window's rounded corners capture the page colour instead of the desktop.
+case $THEME in light) PAGE_BG='#faf9f7' ;; dark) PAGE_BG='#171614' ;; *) echo "THEME must be light or dark" >&2; exit 2 ;; esac
+BACKDROP_PAD=48
 EASING=12        # cliclick easing: slower, human-like pointer paths, which the webview registers as a drag
 TYPING_MS=55     # per keystroke, the pace of a person typing
 
@@ -94,18 +100,21 @@ case ${1:-} in
   launch)
     mkdir -p "$BACKUP" stills
     [[ -f "$BACKUP/settings.json" ]] || cp "$SUPPORT/settings.json" "$SUPPORT/recents.json" "$BACKUP/"
-    python3 - "$SUPPORT/settings.json" <<'PY'
+    python3 - "$SUPPORT/settings.json" "$THEME" <<'PY'
 import json, sys
 p = sys.argv[1]; s = json.load(open(p))
-s.update(theme="light", sidebarWidth=240, offerDefaultApp=False, readingFont="serif", textSize=17)
+s.update(theme=sys.argv[2], sidebarWidth=240, offerDefaultApp=False, readingFont="serif", textSize=17)
 s["readingWidth"] = {"em": 33, "percent": 85, "unit": "em"}
 s["models"]["anthropic-subscription"] = "sonnet"
 json.dump(s, open(p, "w"), indent=2)
 PY
     [[ -d "$TAKE_DIR" ]] && mv "$TAKE_DIR" "$TAKE_DIR.$(date +%s)"
     mkdir -p "$TAKE_DIR" && cp -R "$CORPUS" "$TAKE_DIR/"
+    wait_idle 45
+    osascript -l JavaScript backdrop.js $((WIN_X-BACKDROP_PAD)) $((WIN_Y-BACKDROP_PAD)) $((WIN_W+2*BACKDROP_PAD)) $((WIN_H+2*BACKDROP_PAD)) "$PAGE_BG" 7200 &
+    echo $! > .backdrop.pid; sleep 1
     open -a "$APP" "$TAKE_DIR/$(basename "$CORPUS")"; sleep 4
-    echo "pid=$(pid_of) geometry=$(place) front=$(front)"
+    echo "pid=$(pid_of) geometry=$(place) front=$(front) theme=$THEME"
     ;;
   place) place ;;
   raise) raise; front ;;
@@ -141,6 +150,7 @@ PY
     ;;
   quit)
     osascript -e 'tell application id "app.nestedreader.nested" to quit'; sleep 1
+    [[ -f .backdrop.pid ]] && { kill "$(cat .backdrop.pid)" 2>/dev/null; rm -f .backdrop.pid; }
     [[ -f "$BACKUP/settings.json" ]] && cp "$BACKUP/settings.json" "$BACKUP/recents.json" "$SUPPORT/" && echo "settings restored"
     ;;
   *) sed -n '2,12p' "$SELF" ;;
