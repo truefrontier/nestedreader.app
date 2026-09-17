@@ -1,0 +1,20 @@
+.DS_Store
+demo/.backup/
+demo/raw.mp4
+demo/marks.log
+demo/.ffmpeg.pid
+demo/stills/
+demo/corpus/*/.reader/
+demo/corpus/*/*.md
+!demo/corpus/Sleep and memory/does-replay-run-the-other-way.md
+!demo/corpus/Sleep and memory/replay-into-cortex.md
+!demo/corpus/Sleep and memory/same-order.md
+!demo/corpus/Sleep and memory/sharp-wave-ripples.md
+!demo/corpus/Sleep and memory/slow-oscillations.md
+!demo/corpus/Sleep and memory/why-the-brain-replays-the-day.md
+demo/.run*/
+demo/.diff.txt
+demo/.keep.txt
+demo/.freezes.txt
+demo/raw-*.mp4
+demo/marks-*.log
