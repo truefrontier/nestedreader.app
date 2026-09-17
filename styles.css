@@ -172,7 +172,7 @@ kbd {
   padding: 0 .06em; margin: 0 -.06em; border-radius: 0;
 }
 .lede { font-size: clamp(1.0625rem, 1rem + .35vw, 1.2rem); line-height: 1.55; margin-bottom: 1.6em; max-width: 30em; }
-.get { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-bottom: 14px; }
+.get { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 14px; }
 .btn {
   display: inline-flex;
   padding: 12px 20px; border-radius: 9px;
@@ -385,4 +385,13 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   .peek { transition: none; }
   .btn:hover { filter: none; }
+}
+
+.btn.ghost {
+  background: transparent;
+  color: inherit;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+}
+.btn.ghost:hover {
+  border-color: color-mix(in srgb, currentColor 40%, transparent);
 }
