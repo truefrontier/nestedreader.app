@@ -53,9 +53,9 @@
       <source src="demo/demo.mp4" type="video/mp4">
       <img src="demo/poster.jpg" width="1280" height="800" alt="The Nested window. A tree of pages in the sidebar on the left, and on the right the page Why the brain replays the day, set in a single reading column.">
     </video>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </div>
-  <figcaption id="demo-caption">Fifty seconds in Nested, without sound. A page opens. A sentence is highlighted, a question is typed, and the Quick Answer streams in under the paragraph. The answer closes and a dotted underline stays. Another phrase opens a New Page beside it, nested in the tree. Then the session map.</figcaption>
+  <figcaption id="demo-caption">Under a minute in Nested, without sound. A page opens. A sentence is highlighted, a question is typed, and the Quick Answer streams in under the paragraph. The answer closes and a dotted underline stays. Another phrase opens a New Page beside it, nested in the tree. Then the session map.</figcaption>
 </figure>
 
 <section class="sec col" id="loop">
@@ -91,14 +91,14 @@
     <figcaption>A Quick Answer, inline under the paragraph it came from.</figcaption>
   </figure>
 
-  <p class="hasPeek">When the answer closes, the phrase <span class="asked" tabindex="0" aria-describedby="peek-1">keeps a dotted underline</span><span class="peek" id="peek-1" role="note">Hovering the phrase shows its answer again, like this.</span>. Hover it and the answer shows again.</p>
+  <p class="hasPeek">When the answer closes, the phrase <span class="asked" tabindex="0" aria-describedby="peek-1">keeps a dotted underline</span><span class="peek" id="peek-1" role="note">Hovering the phrase shows its answer again, like this.</span>. Hover it, or tab to it, and the answer shows again.</p>
 
   <p>Press <kbd>⌘↵</kbd> for a New Page. Nested writes a page about the selection and opens it beside the one you are reading. Press <kbd>⌘⇧↵</kbd> for a Deep Dive, a longer page written in the background and marked unread for later.</p>
 </section>
 
 <section class="sec col" id="nest">
   <h2>New pages nest under the page they came from.</h2>
-  <p>The tree in the sidebar shows the shape of what you have understood so far. A blue dot marks a page you have not read yet. A green ring marks a page with changes to review. Every page is a plain .md file in the folder you opened, with the same name.</p>
+  <p>The tree in the sidebar shows the shape of what you have understood so far. A blue dot marks a page you have not read yet. A green ring marks a page with changes to review. Every page is a plain .md file in the folder you opened.</p>
 
   <figure class="ill">
     <div class="pair">
@@ -185,7 +185,7 @@
         <a class="btn" href="https://nested-feedback.fly.dev/updates/dmg">Download for Mac</a>
       </div>
       <h3>First open</h3>
-      <p>The build is not notarized with Apple yet, so the first open needs one extra step. Control-click Nested and choose Open. Or go to System Settings › Privacy &amp; Security and choose Open Anyway.</p>
+      <p>The build is not notarized with Apple yet, so the first open needs one extra step. Control-click Nested and choose Open. Or open System Settings, go to Privacy &amp; Security, and choose Open Anyway.</p>
       <h3>Updates</h3>
       <p>Nested checks for a newer version a few seconds after it opens and every few hours. A quiet card at the foot of the window offers Update and relaunch.</p>
     </div>
