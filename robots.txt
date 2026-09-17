@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /app
 Sitemap: https://nestedreader.app/sitemap.xml
