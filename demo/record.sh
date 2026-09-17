@@ -58,9 +58,15 @@ place() {
   osa 'get {position, size} of window 1' | tr -d ' '
 }
 idle() { ioreg -c IOHIDSystem | awk '/HIDIdleTime/ {print int($NF/1000000000); exit}' }
+# A locked screen shows loginwindow in front and captures black, so the wait also holds until
+# someone unlocks the Mac and then leaves it alone.
+locked() { [[ "$(front 2>/dev/null)" == loginwindow ]] }
 wait_idle() {
   local need=${1:-45}
-  while (( $(idle) < need )); do echo "user active (idle $(idle)s), waiting"; sleep 15; done
+  while locked || (( $(idle) < need )); do
+    if locked; then echo "screen is locked, waiting"; else echo "user active (idle $(idle)s), waiting"; fi
+    sleep 15
+  done
 }
 
 # Fresh keyboard or mouse input means a person is at the Mac: the take aborts instead of fighting
