@@ -1,8 +1,9 @@
 # nestedreader.app
 
-Marketing and distribution site for **Nested Reader** (True Frontier).
+Static marketing + distribution site for Nested (Astra).
 
-- Product: desktop research reader (Tauri + React + Rust) — app source: `truefrontier/nested-reader`
-- Domain: [nestedreader.app](https://nestedreader.app) (Spaceship; DNS defaults until pointed)
+Deploy this repo’s `main` to https://nestedreader.app.
 
-This repo is the public-facing site and download/distribution surface. App code stays in `nested-reader`.
+Public Mac download path: `/downloads/Nested-arm64.zip` — Server Ops uploads the zip from the latest `astra-v*` GitHub Release on `truefrontier/nested-reader` (private repo; release assets are the Ops source, not anonymous CDN).
+
+Built from the Astra app’s `release/website/` output.
