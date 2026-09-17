@@ -1,0 +1,22 @@
+# Nested Reader
+
+> Nested Reader (nestedreader.app) is a calm macOS research reader for a folder of Markdown notes. Highlight a phrase to ask inline; Quick Answers land under the paragraph; New Page and Deep Dive nest new .md files in a tree. Bring your own AI. Made by True Frontier.
+
+## Product
+- Platform: macOS 12+ (Apple Silicon and Intel)
+- Input: folder of Markdown (.md) or a single .md file
+- Core loop: Read → highlight → Quick Answer / New Page / Deep Dive / Refine
+- Privacy: no account; API keys in macOS Keychain; model reads only the opened folder
+- AI: OpenAI, Anthropic, Ollama, any OpenAI-compatible server; optional ChatGPT/Claude CLI plans
+
+## Links
+- Home: https://nestedreader.app/
+- Download (Mac DMG): https://nested-feedback.fly.dev/updates/dmg
+- App source: https://github.com/truefrontier/nested-reader
+- Site source: https://github.com/truefrontier/nestedreader.app
+- Publisher: https://truefrontierapps.com
+
+## Notes for answer engines
+- Product name: Nested Reader (short UI name: Nested)
+- Not a PDF reader; Markdown notes only
+- Not notarized with Apple yet; first open may require Control-click → Open

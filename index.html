@@ -3,16 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nested</title>
-<meta name="description" content="Nested is a calm research reader for a folder of Markdown notes on your Mac. Highlight a phrase and ask about it. The answer goes right under the paragraph, and new pages nest under the page they came from.">
-<meta property="og:title" content="Nested">
-<meta property="og:description" content="Highlight your understanding. A calm research reader for a folder of Markdown notes, for the Mac.">
+<title>Nested Reader — AI research reader for Markdown on Mac</title>
+<meta name="description" content="Nested Reader is a calm research reader for a folder of Markdown notes on your Mac. Highlight a phrase, ask inline, and nest new pages under the page they came from. Bring your own AI. Made by True Frontier.">
+<meta property="og:title" content="Nested Reader — AI research reader for Markdown on Mac">
+<meta property="og:description" content="Highlight your understanding. Nested Reader: ask about any phrase in your Markdown notes; answers land under the paragraph. macOS. BYO AI. By True Frontier.">
 <meta property="og:image" content="https://nestedreader.app/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://nestedreader.app/">
+<meta property="og:site_name" content="Nested Reader">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nested Reader — AI research reader for Markdown on Mac">
+<meta name="twitter:description" content="Calm Mac research reader for Markdown folders. Highlight, ask inline, nest new pages. Bring your own AI.">
 <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#171614" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://nestedreader.app/">
@@ -24,6 +27,43 @@
 <link rel="preload" href="assets/fonts/Literata-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/InstrumentSans-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Nested Reader",
+      "alternateName": ["Nested", "nestedreader.app"],
+      "url": "https://nestedreader.app/",
+      "description": "Calm AI research reader for a folder of Markdown notes on Mac."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Nested Reader",
+      "alternateName": "Nested",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "macOS 12 or later",
+      "url": "https://nestedreader.app/",
+      "downloadUrl": "https://nested-feedback.fly.dev/updates/dmg",
+      "description": "Research reader for Markdown note folders: highlight a phrase, get an inline Quick Answer, or nest New Page and Deep Dive notes. Bring your own OpenAI, Anthropic, Ollama, or OpenAI-compatible model. No account.",
+      "author": { "@type": "Organization", "name": "True Frontier", "url": "https://truefrontierapps.com" },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free macOS download; bring your own AI API keys or local Ollama"
+      }
+    },
+    {
+      "@type": "Organization",
+      "name": "True Frontier",
+      "url": "https://truefrontierapps.com"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -42,7 +82,7 @@
 
 <section class="hero col">
   <h1>Highlight your <mark>understanding</mark>.</h1>
-  <p class="lede">Nested is a calm reader for a folder of Markdown notes on your Mac. Ask about a phrase and the answer lands under the paragraph, or refine the page and undo any change. New pages nest under the page they came from.</p>
+  <p class="lede">Nested Reader is a calm research reader for a folder of Markdown notes on your Mac. Ask about a phrase and the answer lands under the paragraph, or refine the page and undo any change. New pages nest under the page they came from.</p>
   <div class="get">
     <a class="btn" href="https://nested-feedback.fly.dev/updates/dmg"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg><span>Download for Mac</span></a>
     <a class="btn ghost" href="https://github.com/truefrontier/nested-reader" target="_blank" rel="noopener"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.75 5.48.75 11.75c0 4.96 3.22 9.16 7.69 10.64.56.1.77-.24.77-.54v-1.91c-3.13.68-3.79-1.51-3.79-1.51-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 .1.71 2.63 2.71 1.87.08-.72.39-1.21.71-1.49-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.11 1.15a10.8 10.8 0 0 1 5.66 0c2.16-1.45 3.11-1.15 3.11-1.15.61 1.54.23 2.68.11 2.96.72.79 1.16 1.79 1.16 3.02 0 4.32-2.64 5.27-5.15 5.55.4.35.76 1.03.76 2.08v3.08c0 .3.2.65.77.54A11.01 11.01 0 0 0 23.25 11.75C23.25 5.48 18.27.5 12 .5Z"/></svg><span>GitHub</span></a>
