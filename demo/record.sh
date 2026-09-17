@@ -6,6 +6,7 @@
 #   demo/record.sh run         # the scripted demo: records demo/raw.mp4 and demo/marks.log
 #   demo/record.sh shot NAME   # still of the window into demo/stills/NAME.png
 #   demo/record.sh quit        # quit Nested and put the user's settings back
+#   demo/record.sh idlewait 120   # block until nobody has touched the Mac for two minutes
 #
 # Needs: /Applications/Nested.app, ffmpeg (avfoundation), cliclick, an unlocked display,
 # and Screen Recording permission for the terminal. The Claude plan provider answers the
@@ -62,8 +63,11 @@ wait_idle() {
   while (( $(idle) < need )); do echo "user active (idle $(idle)s), waiting"; sleep 15; done
 }
 
+# Fresh keyboard or mouse input means a person is at the Mac: the take aborts instead of fighting
+# them for focus. `run` reports the abort and can be started again later.
 ensure_front() {
   [[ "$(front)" == nested ]] && return
+  (( $(idle) < 4 )) && { echo "ABORT: someone is using the Mac (focus went to $(front))" >&2; exit 3 }
   echo "focus went to $(front); bringing Nested back" >&2
   osa 'set frontmost to true' >/dev/null; sleep 0.6
 }
@@ -124,6 +128,7 @@ PY
   type) type_text "$2" ;;
   key) shift; key "$@" ;;
   idle) idle ;;
+  idlewait) wait_idle "${2:-120}" ;;
   shot)
     screencapture -x -R$WIN_X,$WIN_Y,$WIN_W,$WIN_H "stills/$2.png"; echo "stills/$2.png"
     ;;
