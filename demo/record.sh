@@ -121,7 +121,8 @@ PY
     [[ -d "$TAKE_DIR" ]] && mv "$TAKE_DIR" "$TAKE_DIR.$(date +%s)"
     mkdir -p "$TAKE_DIR" && cp -R "$CORPUS" "$TAKE_DIR/"
     wait_idle 45
-    osascript -l JavaScript backdrop.js $((WIN_X-BACKDROP_PAD)) $((WIN_Y-BACKDROP_PAD)) $((WIN_W+2*BACKDROP_PAD)) $((WIN_H+2*BACKDROP_PAD)) "$PAGE_BG" 7200 &
+    # Detached from this script's output, or a caller reading it through a pipe waits on the backdrop.
+    osascript -l JavaScript backdrop.js $((WIN_X-BACKDROP_PAD)) $((WIN_Y-BACKDROP_PAD)) $((WIN_W+2*BACKDROP_PAD)) $((WIN_H+2*BACKDROP_PAD)) "$PAGE_BG" 7200 >/dev/null 2>&1 &
     echo $! > .backdrop.pid; sleep 1
     open -a "$APP" "$TAKE_DIR/$(basename "$CORPUS")"; sleep 4
     echo "pid=$(pid_of) geometry=$(place) front=$(front) theme=$THEME"
