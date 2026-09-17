@@ -18,3 +18,4 @@ demo/.keep.txt
 demo/.freezes.txt
 demo/raw-*.mp4
 demo/marks-*.log
+.prototype-html-demo/
