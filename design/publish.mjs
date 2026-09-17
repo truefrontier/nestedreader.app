@@ -36,7 +36,11 @@ function referenced(text) {
   }
   return out;
 }
-const files = new Set(["index.html", "styles.css", "script.js", "robots.txt", "sitemap.xml"]);
+const files = new Set([
+  "index.html", "styles.css", "script.js", "robots.txt", "sitemap.xml",
+  // script.js swaps these in for dark mode, so the page never names them.
+  "demo/demo-dark.webm", "demo/demo-dark.mp4", "demo/poster-dark.jpg",
+]);
 for (const p of referenced(readFileSync(join(ROOT, "index.html"), "utf8"))) files.add(p);
 for (const p of referenced(readFileSync(join(ROOT, "styles.css"), "utf8"))) files.add(p);
 const manifest = [...files].filter((p) => existsSync(join(ROOT, p)) && statSync(join(ROOT, p)).isFile()).sort().map((path) => {

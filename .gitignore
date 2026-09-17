@@ -19,3 +19,7 @@ demo/.freezes.txt
 demo/raw-*.mp4
 demo/marks-*.log
 .prototype-html-demo/
+demo/launch-*.log
+demo/run-*.log
+demo/demo-*-a.*
+demo/poster-*-a.jpg
