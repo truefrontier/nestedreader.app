@@ -9,11 +9,18 @@ The site for **Nested**, the Mac research reader built in `truefrontier/nested-r
 - `assets/icon/`, `assets/brand/`: the icon at web sizes and the logo SVGs. `assets/screenshots/`: real windows of the app at 2×.
 - `assets/og.png`: the link preview, rendered from `design/og.html` by `design/og.sh`.
 - `demo/`: the demo video and the scripts that make it (below).
-- `.github/workflows/pages.yml`: publishes the repo root to GitHub Pages on every push to `main`. `CNAME` pins `nestedreader.app`.
+- `design/publish.mjs`: publishes the page to its here.now site, which serves `nestedreader.app`.
 
 ## Update the version or the download
 
-The download button points at `https://nested-feedback.fly.dev/updates/dmg`, which always redirects to the newest universal `.dmg`, so a release needs no change here. The version number is written once in `index.html`; search for it and bump it after `pnpm release` in the app repo.
+Neither needs a hand after a release. The download button points at `https://nested-feedback.fly.dev/updates/dmg`, which always redirects to the newest universal `.dmg`, so it never changes. The version in the footer keeps itself current: `.github/workflows/version.yml` asks the update relay for the newest release every six hours, writes it into the `<span data-version>` in `index.html`, commits that to `main`, and republishes the page. When the version has not moved it does nothing; when the relay has no version, or the page has no `<span data-version>`, it fails the run rather than publishing something wrong.
+
+The one thing it needs is the here.now key as a repository secret named `HERENOW_API_KEY`, the same key that sits in `~/.herenow/credentials`:
+
+```bash
+gh secret set HERENOW_API_KEY < ~/.herenow/credentials
+gh workflow run version   # run it now instead of waiting for the schedule
+```
 
 ## Remake the demo video
 
@@ -30,4 +37,11 @@ Needs `/Applications/Nested.app`, `ffmpeg`, `cliclick`, ImageMagick, Screen Reco
 
 ## Publish
 
-GitHub Pages on the free organisation plan needs the repository to be public. Once it is: Settings › Pages › Source: GitHub Actions, then push to `main`. Point the domain at Pages (A records for `nestedreader.app` to GitHub's four IPs, `www` as a CNAME to `truefrontier.github.io`) and turn on Enforce HTTPS after the certificate arrives.
+The site is hosted on [here.now](https://here.now) as `aware-tassel-9yy6.here.now`, with `nestedreader.app` pointed at it through Cloudflare. Publishing is one command:
+
+```bash
+node design/publish.mjs            # what the page references, plus robots.txt and sitemap.xml
+node design/publish.mjs --dry-run  # list the files and stop
+```
+
+It needs the here.now API key in `~/.herenow/credentials`. Each run stages a new version from the current live one and makes it live in one step; here.now keeps the earlier versions, so a bad publish can be restored from the dashboard.

@@ -2,9 +2,11 @@
 # Drives the real Nested.app on a Mac and records the demo that the site embeds.
 #
 #   demo/record.sh launch      # apply demo settings, open the sample folder in Nested, place the window
+#   THEME=dark demo/record.sh launch   # the same in the app's dark theme, on a dark backdrop
 #   demo/record.sh run         # the scripted demo: records demo/raw.mp4 and demo/marks.log
 #   demo/record.sh shot NAME   # still of the window into demo/stills/NAME.png
 #   demo/record.sh quit        # quit Nested and put the user's settings back
+#   demo/record.sh idlewait 120   # block until nobody has touched the Mac for two minutes
 #
 # Needs: /Applications/Nested.app, ffmpeg (avfoundation), cliclick, an unlocked display,
 # and Screen Recording permission for the terminal. The Claude plan provider answers the
@@ -20,6 +22,11 @@ TAKE_DIR=$PWD/.run
 SUPPORT="$HOME/Library/Application Support/app.nestedreader.nested"
 BACKUP=${BACKUP:-$PWD/.backup}
 WIN_X=160 WIN_Y=100 WIN_W=1280 WIN_H=800
+THEME=${THEME:-light}
+# The page colour of each theme (the site's --bg). A borderless window in it sits behind Nested while
+# recording, so the window's rounded corners capture the page colour instead of the desktop.
+case $THEME in light) PAGE_BG='#faf9f7' ;; dark) PAGE_BG='#171614' ;; *) echo "THEME must be light or dark" >&2; exit 2 ;; esac
+BACKDROP_PAD=48
 EASING=12        # cliclick easing: slower, human-like pointer paths, which the webview registers as a drag
 TYPING_MS=55     # per keystroke, the pace of a person typing
 
@@ -51,13 +58,22 @@ place() {
   osa 'get {position, size} of window 1' | tr -d ' '
 }
 idle() { ioreg -c IOHIDSystem | awk '/HIDIdleTime/ {print int($NF/1000000000); exit}' }
+# A locked screen shows loginwindow in front and captures black, so the wait also holds until
+# someone unlocks the Mac and then leaves it alone.
+locked() { [[ "$(front 2>/dev/null)" == loginwindow ]] }
 wait_idle() {
   local need=${1:-45}
-  while (( $(idle) < need )); do echo "user active (idle $(idle)s), waiting"; sleep 15; done
+  while locked || (( $(idle) < need )); do
+    if locked; then echo "screen is locked, waiting"; else echo "user active (idle $(idle)s), waiting"; fi
+    sleep 15
+  done
 }
 
+# Fresh keyboard or mouse input means a person is at the Mac: the take aborts instead of fighting
+# them for focus. `run` reports the abort and can be started again later.
 ensure_front() {
   [[ "$(front)" == nested ]] && return
+  (( $(idle) < 4 )) && { echo "ABORT: someone is using the Mac (focus went to $(front))" >&2; exit 3 }
   echo "focus went to $(front); bringing Nested back" >&2
   osa 'set frontmost to true' >/dev/null; sleep 0.6
 }
@@ -94,18 +110,22 @@ case ${1:-} in
   launch)
     mkdir -p "$BACKUP" stills
     [[ -f "$BACKUP/settings.json" ]] || cp "$SUPPORT/settings.json" "$SUPPORT/recents.json" "$BACKUP/"
-    python3 - "$SUPPORT/settings.json" <<'PY'
+    python3 - "$SUPPORT/settings.json" "$THEME" <<'PY'
 import json, sys
 p = sys.argv[1]; s = json.load(open(p))
-s.update(theme="light", sidebarWidth=240, offerDefaultApp=False, readingFont="serif", textSize=17)
+s.update(theme=sys.argv[2], sidebarWidth=240, offerDefaultApp=False, readingFont="serif", textSize=17)
 s["readingWidth"] = {"em": 33, "percent": 85, "unit": "em"}
 s["models"]["anthropic-subscription"] = "sonnet"
 json.dump(s, open(p, "w"), indent=2)
 PY
     [[ -d "$TAKE_DIR" ]] && mv "$TAKE_DIR" "$TAKE_DIR.$(date +%s)"
     mkdir -p "$TAKE_DIR" && cp -R "$CORPUS" "$TAKE_DIR/"
+    wait_idle 45
+    # Detached from this script's output, or a caller reading it through a pipe waits on the backdrop.
+    osascript -l JavaScript backdrop.js $((WIN_X-BACKDROP_PAD)) $((WIN_Y-BACKDROP_PAD)) $((WIN_W+2*BACKDROP_PAD)) $((WIN_H+2*BACKDROP_PAD)) "$PAGE_BG" 7200 >/dev/null 2>&1 &
+    echo $! > .backdrop.pid; sleep 1
     open -a "$APP" "$TAKE_DIR/$(basename "$CORPUS")"; sleep 4
-    echo "pid=$(pid_of) geometry=$(place) front=$(front)"
+    echo "pid=$(pid_of) geometry=$(place) front=$(front) theme=$THEME"
     ;;
   place) place ;;
   raise) raise; front ;;
@@ -115,6 +135,7 @@ PY
   type) type_text "$2" ;;
   key) shift; key "$@" ;;
   idle) idle ;;
+  idlewait) wait_idle "${2:-120}" ;;
   shot)
     screencapture -x -R$WIN_X,$WIN_Y,$WIN_W,$WIN_H "stills/$2.png"; echo "stills/$2.png"
     ;;
@@ -135,12 +156,17 @@ PY
   run)
     wait_idle 45
     raise; place >/dev/null
+    # A sleeping or locked display captures black; better to stop than to record two minutes of it.
+    probe=$(mktemp -t probe).png; screencapture -x -R$WIN_X,$WIN_Y,200,200 "$probe"
+    lum=$(magick "$probe" -colorspace gray -format "%[fx:mean]" info:); rm -f "$probe"
+    (( ${lum%%.*}0 + ${${lum#*.}:0:2} < 5 )) && { echo "ABORT: the display captures black (mean $lum); asleep or locked" >&2; exit 4 }
     $0 rec start
     source ./script.sh
     $0 rec stop
     ;;
   quit)
     osascript -e 'tell application id "app.nestedreader.nested" to quit'; sleep 1
+    [[ -f .backdrop.pid ]] && { kill "$(cat .backdrop.pid)" 2>/dev/null; rm -f .backdrop.pid; }
     [[ -f "$BACKUP/settings.json" ]] && cp "$BACKUP/settings.json" "$BACKUP/recents.json" "$SUPPORT/" && echo "settings restored"
     ;;
   *) sed -n '2,12p' "$SELF" ;;

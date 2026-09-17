@@ -1,0 +1,77 @@
+name: version
+
+# The footer on nestedreader.app names the app's newest release, so a release should not
+# need a commit here. This asks the update relay what the newest version is, writes it into
+# the footer, and republishes the page when it moved.
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: version
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Ask the relay for the newest version
+        id: latest
+        run: |
+          set -euo pipefail
+          version=$(curl -fsSL --retry 3 https://nested-feedback.fly.dev/updates/latest.json | jq -er .version)
+          # It goes onto a public page, so take only a version number.
+          [[ $version =~ ^[0-9]+(\.[0-9]+)+$ ]] || { echo "::error::relay gave a version that is not a number: $version"; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Write it into the footer
+        id: edit
+        env:
+          VERSION: ${{ steps.latest.outputs.version }}
+        run: |
+          set -euo pipefail
+          perl -0pi -e 's{(<span data-version>)[^<]*(</span>)}{$1$ENV{VERSION}$2}g' index.html
+          grep -qF "<span data-version>$VERSION</span>" index.html || { echo "::error::index.html has no <span data-version> for the version to go in"; exit 1; }
+          # git diff answers 0 for an unchanged file, 1 for a changed one, 2 or more for a real failure.
+          changed=0; git diff --quiet -- index.html || changed=$?
+          case $changed in
+            0) echo "changed=false" >> "$GITHUB_OUTPUT" ;;
+            1) echo "changed=true" >> "$GITHUB_OUTPUT" ;;
+            *) echo "::error::git diff failed ($changed)"; exit 1 ;;
+          esac
+
+      - name: Commit and push
+        if: steps.edit.outputs.changed == 'true'
+        env:
+          VERSION: ${{ steps.latest.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(site): version $VERSION" index.html
+          git pull --rebase origin main   # a commit landed during the run; never forced past it
+          git push origin HEAD:main
+
+      - uses: actions/setup-node@v4
+        if: steps.edit.outputs.changed == 'true'
+        with:
+          node-version: 22
+
+      - name: Publish the page
+        if: steps.edit.outputs.changed == 'true'
+        env:
+          HERENOW_API_KEY: ${{ secrets.HERENOW_API_KEY }}
+        run: |
+          set -euo pipefail
+          [ -n "$HERENOW_API_KEY" ] || { echo "::error::the HERENOW_API_KEY secret is not set"; exit 1; }
+          umask 077   # the key is 0600 from the moment it exists
+          mkdir -p ~/.herenow
+          printf '%s\n' "$HERENOW_API_KEY" > ~/.herenow/credentials
+          node design/publish.mjs
