@@ -155,6 +155,10 @@ PY
   run)
     wait_idle 45
     raise; place >/dev/null
+    # A sleeping or locked display captures black; better to stop than to record two minutes of it.
+    probe=$(mktemp -t probe).png; screencapture -x -R$WIN_X,$WIN_Y,200,200 "$probe"
+    lum=$(magick "$probe" -colorspace gray -format "%[fx:mean]" info:); rm -f "$probe"
+    (( ${lum%%.*}0 + ${${lum#*.}:0:2} < 5 )) && { echo "ABORT: the display captures black (mean $lum); asleep or locked" >&2; exit 4 }
     $0 rec start
     source ./script.sh
     $0 rec stop
