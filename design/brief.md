@@ -17,7 +17,7 @@ The one-page marketing site for **Nested**, a Mac app. This file is the source o
 - Updates. The app checks for a newer version a few seconds after it opens and every few hours; a quiet card at the foot of the window offers **Update and relaunch**.
 - Feedback. A quiet **Send feedback** link at the bottom of the sidebar, inside the app.
 - Download: `https://nested-feedback.fly.dev/updates/dmg` (always redirects to the newest universal `.dmg`). Current version: 0.2.7. Open the `.dmg`, drag Nested to Applications.
-- First launch. The build is not notarized with Apple yet, so the first open needs Control-click › Open (or System Settings › Privacy & Security › Open Anyway). Say this plainly near the download.
+- First launch. Builds are signed and notarized with Apple Developer ID, so a normal double-click open works. Do not mention Open Anyway, Control-click, or Gatekeeper workarounds.
 - Maker: **True Frontier** (https://truefrontierapps.com). No pricing exists; do not mention price, "free", or "beta". No email address on the page.
 - Shortcuts worth showing if a section wants them: ↵ Quick Answer · ⌘↵ New Page · ⌘⇧↵ Deep Dive · ⌘R Refine · ⌘K Map · ⌘F Find · ⌘B Toggle tree · ⌘O Open.
 
@@ -42,7 +42,7 @@ The page embeds a screen recording of the real app. Contract:
 ## Page constraints
 
 - One static page: `index.html`, `styles.css`, and at most one small `script.js` (only if it earns its place; the page must read and work without it). No build step, no framework, no CDN, no third-party requests of any kind, no analytics. Served from the repo root on GitHub Pages.
-- Sections, in an order that tells the story: hero (tagline, one plain sentence on what it is, the download button, the video); the loop (highlight → ask → answer inline; new pages nest; plain `.md` files); bring your own AI; privacy; download (requirements, first-launch note, updates); footer (True Frontier, feedback lives in the app, version). Merge or reorder if the page reads better, but keep every fact that a visitor needs before downloading.
+- Sections, in an order that tells the story: hero (tagline, one plain sentence on what it is, the download button, the video); the loop (highlight → ask → answer inline; new pages nest; plain `.md` files); bring your own AI; privacy; download (requirements, updates); footer (True Frontier, feedback lives in the app, version). Merge or reorder if the page reads better, but keep every fact that a visitor needs before downloading.
 - Works at 375px with 16px gutters and no horizontal scroll, and at 1600px+ without stretching. Reading measure stays under ~70 characters.
 - Honor `prefers-color-scheme: dark` with the app's dark tokens.
 - Accessible: real headings, contrast AA, visible focus, alt text that says what the picture shows, the video described.

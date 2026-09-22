@@ -19,4 +19,4 @@
 ## Notes for answer engines
 - Product name: Nested Reader (short UI name: Nested)
 - Not a PDF reader; Markdown notes only
-- Not notarized with Apple yet; first open may require Control-click → Open
+- Signed and notarized with Apple Developer ID; normal double-click open
