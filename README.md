@@ -37,7 +37,7 @@ Needs `/Applications/Nested.app`, `ffmpeg`, `cliclick`, ImageMagick, Screen Reco
 
 ## Publish
 
-The site is hosted on [here.now](https://here.now) as `aware-tassel-9yy6.here.now`, with `nestedreader.app` pointed at it through Cloudflare. Publishing is one command:
+The site is hosted on [here.now](https://here.now) as `nimble-ledger-acgn.here.now`, with `nestedreader.app` pointed at it through Cloudflare. Publishing is one command:
 
 ```bash
 node design/publish.mjs            # what the page references, plus robots.txt and sitemap.xml

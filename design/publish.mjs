@@ -10,7 +10,7 @@ import { readFileSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const SLUG = "aware-tassel-9yy6";
+const SLUG = "nimble-ledger-acgn";
 const HOST = "https://here.now";
 const SITE = "https://nestedreader.app";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
