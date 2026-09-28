@@ -1,5 +1,5 @@
 // Publishes the page to its here.now site. The file set is what index.html and styles.css
-// reference, plus the page itself, robots.txt and sitemap.xml, so nothing stale rides along.
+// reference, plus the page itself, robots.txt, sitemap.xml, and llms.txt, so nothing stale rides along.
 //
 //   node design/publish.mjs            # publish to the slug below
 //   node design/publish.mjs --dry-run  # list the files and stop
@@ -37,7 +37,7 @@ function referenced(text) {
   return out;
 }
 const files = new Set([
-  "index.html", "styles.css", "script.js", "robots.txt", "sitemap.xml",
+  "index.html", "styles.css", "script.js", "robots.txt", "sitemap.xml", "llms.txt",
   // script.js swaps these in for dark mode, so the page never names them.
   "demo/demo-dark.webm", "demo/demo-dark.mp4", "demo/poster-dark.jpg",
 ]);
