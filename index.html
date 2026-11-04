@@ -4,18 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nested Reader — AI research reader for Markdown on Mac</title>
-<meta name="description" content="Nested Reader is a calm research reader for a folder of Markdown notes on your Mac. Highlight a phrase, ask inline, and nest new pages under the page they came from. Bring your own AI. Made by True Frontier.">
+<meta name="description" content="Nested Reader is a calm research reader for Markdown notes on your Mac. Highlight a phrase and ask; the answer lands under the paragraph. Bring your own AI.">
 <meta property="og:title" content="Nested Reader — AI research reader for Markdown on Mac">
 <meta property="og:description" content="Highlight your understanding. Nested Reader: ask about any phrase in your Markdown notes; answers land under the paragraph. macOS. BYO AI. By True Frontier.">
 <meta property="og:image" content="https://nestedreader.app/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Nested logo, a nest of copper strands, beside the line: Highlight your understanding. A calm research reader for a folder of Markdown notes, for Mac.">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://nestedreader.app/">
 <meta property="og:site_name" content="Nested Reader">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Nested Reader — AI research reader for Markdown on Mac">
 <meta name="twitter:description" content="Calm Mac research reader for Markdown folders. Highlight, ask inline, nest new pages. Bring your own AI.">
+<meta name="twitter:image" content="https://nestedreader.app/assets/og.png">
+<meta name="twitter:image:alt" content="The Nested logo, a nest of copper strands, beside the line: Highlight your understanding. A calm research reader for a folder of Markdown notes, for Mac.">
 <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#171614" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://nestedreader.app/">
@@ -34,21 +38,28 @@
   "@graph": [
     {
       "@type": "WebSite",
+      "@id": "https://nestedreader.app/#website",
       "name": "Nested Reader",
       "alternateName": ["Nested", "nestedreader.app"],
       "url": "https://nestedreader.app/",
-      "description": "Calm AI research reader for a folder of Markdown notes on Mac."
+      "description": "Calm AI research reader for a folder of Markdown notes on Mac.",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://truefrontierapps.com/#organization" }
     },
     {
       "@type": "SoftwareApplication",
+      "@id": "https://nestedreader.app/#app",
       "name": "Nested Reader",
       "alternateName": "Nested",
       "applicationCategory": "ProductivityApplication",
       "operatingSystem": "macOS 12 or later",
       "url": "https://nestedreader.app/",
       "downloadUrl": "https://nested-feedback.fly.dev/updates/dmg",
+      "image": "https://nestedreader.app/assets/icon/icon-256-squircle.png",
+      "screenshot": "https://nestedreader.app/demo/poster-light.jpg",
       "description": "Research reader for Markdown note folders: highlight a phrase, get an inline Quick Answer, or nest New Page and Deep Dive notes. Bring your own OpenAI, Anthropic, Ollama, or OpenAI-compatible model. No account.",
-      "author": { "@type": "Organization", "name": "True Frontier", "url": "https://truefrontierapps.com" },
+      "author": { "@id": "https://truefrontierapps.com/#organization" },
+      "publisher": { "@id": "https://truefrontierapps.com/#organization" },
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -58,8 +69,10 @@
     },
     {
       "@type": "Organization",
+      "@id": "https://truefrontierapps.com/#organization",
       "name": "True Frontier",
-      "url": "https://truefrontierapps.com"
+      "url": "https://truefrontierapps.com",
+      "sameAs": ["https://github.com/truefrontier"]
     }
   ]
 }
@@ -113,10 +126,10 @@
       <div class="askbox">
         <div class="q">How do we know the copy survives without the hippocampus?</div>
         <div class="keys">
-          <span><kbd>↵</kbd> Quick Answer</span>
-          <span><kbd>⌘↵</kbd> New Page</span>
-          <span><kbd>⌘⇧↵</kbd> Deep Dive</span>
-          <span class="push"><kbd>⌘R</kbd> Refine</span>
+          <span><kbd><span aria-hidden="true">↵</span><span class="sr">Return</span></kbd> Quick Answer</span>
+          <span><kbd><span aria-hidden="true">⌘↵</span><span class="sr">Command Return</span></kbd> New Page</span>
+          <span><kbd><span aria-hidden="true">⌘⇧↵</span><span class="sr">Command Shift Return</span></kbd> Deep Dive</span>
+          <span class="push"><kbd><span aria-hidden="true">⌘R</span><span class="sr">Command R</span></kbd> Refine</span>
           <span>Esc</span>
         </div>
       </div>
@@ -138,7 +151,7 @@
 
   <p class="hasPeek">When the answer closes, the phrase <span class="asked" tabindex="0" aria-describedby="peek-1">keeps a dotted underline</span><span class="peek" id="peek-1" role="note">Hovering the phrase shows its answer again, like this.</span>. Hover it, or tab to it, and the answer shows again.</p>
 
-  <p>Press <kbd>⌘↵</kbd> for a New Page. Nested writes a page about the selection and opens it beside the one you are reading. Press <kbd>⌘⇧↵</kbd> for a Deep Dive, a longer page written in the background and marked unread for later.</p>
+  <p>Press <kbd><span aria-hidden="true">⌘↵</span><span class="sr">Command Return</span></kbd> for a New Page. Nested writes a page about the selection and opens it beside the one you are reading. Press <kbd><span aria-hidden="true">⌘⇧↵</span><span class="sr">Command Shift Return</span></kbd> for a Deep Dive, a longer page written in the background and marked unread for later.</p>
 </section>
 
 <section class="sec col" id="nest">
@@ -193,21 +206,21 @@
   </figure>
 
   <p>Open a folder and every .md inside is the corpus. Open a single .md and the pages you create are saved next to it. Nothing else is needed to read your notes anywhere else. Drag a folder or a file into the window to open it. Nested can be the default app for Markdown files.</p>
-  <p>Refine rewrites a selection, a page, or the whole session. Each change is tinted, so you can undo any one of them, and every refine keeps the previous text as a version. <kbd>⌘R</kbd> switches the ask box between Ask and Refine, and with nothing selected it refines the page.</p>
-  <p>The session map (<kbd>⌘K</kbd>) shows the pages as a graph. Home lists your recent sessions.</p>
+  <p>Refine rewrites a selection, a page, or the whole session. Each change is tinted, so you can undo any one of them, and every refine keeps the previous text as a version. <kbd><span aria-hidden="true">⌘R</span><span class="sr">Command R</span></kbd> switches the ask box between Ask and Refine, and with nothing selected it refines the page.</p>
+  <p>The session map (<kbd><span aria-hidden="true">⌘K</span><span class="sr">Command K</span></kbd>) shows the pages as a graph. Home lists your recent sessions.</p>
 </section>
 
 <section class="sec col" id="shortcuts">
   <h2>Shortcuts</h2>
   <ul class="keys-list">
-    <li><kbd>↵</kbd> Quick Answer</li>
-    <li><kbd>⌘↵</kbd> New Page</li>
-    <li><kbd>⌘⇧↵</kbd> Deep Dive</li>
-    <li><kbd>⌘R</kbd> Refine the page, or switch the ask box to Refine</li>
-    <li><kbd>⌘K</kbd> Map</li>
-    <li><kbd>⌘F</kbd> Find</li>
-    <li><kbd>⌘B</kbd> Toggle tree</li>
-    <li><kbd>⌘O</kbd> Open</li>
+    <li><kbd><span aria-hidden="true">↵</span><span class="sr">Return</span></kbd> Quick Answer</li>
+    <li><kbd><span aria-hidden="true">⌘↵</span><span class="sr">Command Return</span></kbd> New Page</li>
+    <li><kbd><span aria-hidden="true">⌘⇧↵</span><span class="sr">Command Shift Return</span></kbd> Deep Dive</li>
+    <li><kbd><span aria-hidden="true">⌘R</span><span class="sr">Command R</span></kbd> Refine the page, or switch the ask box to Refine</li>
+    <li><kbd><span aria-hidden="true">⌘K</span><span class="sr">Command K</span></kbd> Map</li>
+    <li><kbd><span aria-hidden="true">⌘F</span><span class="sr">Command F</span></kbd> Find</li>
+    <li><kbd><span aria-hidden="true">⌘B</span><span class="sr">Command B</span></kbd> Toggle tree</li>
+    <li><kbd><span aria-hidden="true">⌘O</span><span class="sr">Command O</span></kbd> Open</li>
   </ul>
 </section>
 
