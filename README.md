@@ -42,6 +42,7 @@ The site is hosted on [here.now](https://here.now) as `nimble-ledger-acgn.here.n
 ```bash
 node design/publish.mjs            # what the page references, plus robots.txt and sitemap.xml
 node design/publish.mjs --dry-run  # list the files and stop
+python3 design/audit.py            # SEO and accessibility checks on the page; exits 1 on a failure
 ```
 
 It needs the here.now API key in `~/.herenow/credentials`. Each run stages a new version from the current live one and makes it live in one step; here.now keeps the earlier versions, so a bad publish can be restored from the dashboard.
